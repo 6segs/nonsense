@@ -1,0 +1,108 @@
+local plr = game.Players.LocalPlayer
+local camera = game.Workspace.CurrentCamera
+
+for i, v in pairs(game.Players:GetChildren()) do
+    local TEXT = Drawing.new("Text")
+    TEXT.Visible = false
+    TEXT.Transparency = 1
+    TEXT.Color = Color3.fromRGB(255, 0, 0)
+    TEXT.Text = v.Name
+    TEXT.Size = 15
+    TEXT.Position = Vector2.new(200,200)
+
+    local TRACER = Drawing.new("Line")
+    TRACER.Visible = false
+    TRACER.From = Vector2.new(0, 0)
+    TRACER.To = Vector2.new(200, 200)
+    TRACER.Color = Color3.fromRGB(255, 0, 0)
+    TRACER.Thickness = 2
+    TRACER.Transparency = 1
+
+    function ESP()
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if v.Character ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v.Name ~= plr.Name  and v.Character.Humanoid.Health > 0 then 
+                local ScreenPos, OnScreen = camera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                if OnScreen then
+                    TRACER.From = Vector2.new(camera.ViewportSize.X/2, camera.ViewportSize.Y) -- Gets bottom center of screen for tracers
+                    TRACER.To = Vector2.new(ScreenPos.X, ScreenPos.Y)
+                    TEXT.Position = Vector2.new(ScreenPos.X- 20, ScreenPos.Y)
+
+                    if v.TeamColor == plr.TeamColor then
+                        TRACER.Color = Color3.fromRGB(0, 255, 0)
+                        TEXT.Color = Color3.fromRGB(0, 255, 0)
+                    else 
+                        TRACER.Color = Color3.fromRGB(255, 0, 0)
+                        TEXT.Color = Color3.fromRGB(255, 0, 0)
+                    end
+
+                    TRACER.Visible = true
+                    TEXT.Visible = true
+                else 
+                    TRACER.Visible = false
+                    TEXT.Visible = false
+                end
+            else 
+                TRACER.Visible = false
+                TEXT.Visible = false
+                if game.Players:FindFirstChild(v.Name) then
+                else
+                    Disconnect()
+                end
+            end
+        end)
+    end
+    coroutine.wrap(ESP)()
+end
+
+game.Players.PlayerAdded:Connect(function(newplr) --Parameter gets the new player that has been added
+    local TEXT = Drawing.new("Text")
+    TEXT.Visible = false
+    TEXT.Transparency = 1
+    TEXT.Color = Color3.fromRGB(255, 0, 0)
+    TEXT.Text = newplr.Name
+    TEXT.Size = 15
+    TEXT.Position = Vector2.new(200,200)
+
+    local TRACER = Drawing.new("Line")
+    TRACER.Visible = false
+    TRACER.From = Vector2.new(0, 0)
+    TRACER.To = Vector2.new(200, 200)
+    TRACER.Color = Color3.fromRGB(255, 0, 0)
+    TRACER.Thickness = 2
+    TRACER.Transparency = 1
+
+    function ESP()
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if newplr.Character ~= nil and newplr.Character:FindFirstChild("HumanoidRootPart") ~= nil and newplr.Name ~= plr.Name  and newplr.Character.Humanoid.Health > 0 then
+                local ScreenPos, OnScreen = camera:WorldToViewportPoint(newplr.Character.HumanoidRootPart.Position)
+                if OnScreen then
+                    TRACER.From = Vector2.new(camera.ViewportSize.X/2, camera.ViewportSize.Y) -- Gets bottom center of screen for tracers
+                    TRACER.To = Vector2.new(ScreenPos.X, ScreenPos.Y)
+                    TEXT.Position = Vector2.new(ScreenPos.X - 20, ScreenPos.Y)
+
+                    if newplr.TeamColor == plr.TeamColor then
+                        TRACER.Color = Color3.fromRGB(0, 255, 0)
+                        TEXT.Color = Color3.fromRGB(0, 255, 0)
+                    else 
+                        TRACER.Color = Color3.fromRGB(255, 0, 0)
+                        TEXT.Color = Color3.fromRGB(255, 0, 0)
+                    end
+
+                    TRACER.Visible = true
+                    TEXT.Visible = true
+                else 
+                    TRACER.Visible = false
+                    TEXT.Visible = false
+                end
+            else 
+                TRACER.Visible = false
+                TEXT.Visible = false
+                if game.Players:FindFirstChild(newplr.Name) then
+                else
+                    Disconnect()
+                end
+            end
+        end)
+    end
+    coroutine.wrap(ESP)()
+end)
