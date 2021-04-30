@@ -1,0 +1,36 @@
+function g(val)
+    if val == true then
+        	for i,v in pairs(game.ReplicatedStorage.Weapons:GetDescendants()) do
+		if v:IsA("ValueBase") then
+			local originalvalue = Instance.new(tostring(v.ClassName),v)
+			originalvalue.Name = '__org'
+			originalvalue.Value = v.Value
+		end
+	end
+
+	for i,v in pairs(game.ReplicatedStorage.HUInfo:GetDescendants()) do
+		if v:IsA("ValueBase") then
+			local originalvalue = Instance.new(tostring(v.ClassName),v)
+			originalvalue.Name = '__org'
+			originalvalue.Value = v.Value
+		end
+	end
+
+	game:GetService("RunService"):BindToRenderStep("BunnyHop", 10000, function()
+		pcall(function()
+			if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.Space) and game.Players.LocalPlayer.Character.Humanoid.Jumping then
+				for _, v in pairs(game.ReplicatedStorage.HUInfo:GetChildren()) do
+					v.WalkSpeed.Value = 500000
+				end
+				game.Players.LocalPlayer.Character.Humanoid.Jump = true
+			else
+				for _, v in pairs(game.ReplicatedStorage.HUInfo:GetChildren()) do
+					v.WalkSpeed.Value = v.WalkSpeed["__org"].Value
+				end
+			end
+		end)
+	end)
+    end
+end
+
+g(true)
