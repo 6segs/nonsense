@@ -1,0 +1,280 @@
+local skins = {}
+ 
+function unlockSkin(allSkins)
+    local LocalPlayer = game:GetService("Players").LocalPlayer
+    local Client = getsenv(game.Players.LocalPlayer.PlayerGui.Client)
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+ 
+    local isUnlocked
+ 
+local mt = getrawmetatable(game)
+local oldNamecall = mt.__namecall
+setreadonly(mt, false)
+ 
+local isUnlocked
+ 
+mt.__namecall = newcclosure(function(self, ...)
+   local args = {...}
+   if getnamecallmethod() == "InvokeServer" and tostring(self) == "Hugh" then
+       return
+   end
+   if getnamecallmethod() == "FireServer" then
+       if args[1] == LocalPlayer.UserId then
+           return
+       end
+       if string.len(tostring(self)) == 38 then
+           if not isUnlocked then
+               isUnlocked = true
+               for i,v in pairs(allSkins) do
+                   local doSkip
+                   for i2,v2 in pairs(args[1]) do
+                       if v[1] == v2[1] then
+                           doSkip = true
+                       end
+                   end
+                   if not doSkip then
+                       table.insert(args[1], v)
+                   end
+               end
+           end
+           return
+       end
+       if tostring(self) == "DataEvent" and args[1][4] then
+           local currentSkin = string.split(args[1][4][1], "_")[2]
+           if args[1][2] == "Both" then
+               LocalPlayer["SkinFolder"]["CTFolder"][args[1][3]].Value = currentSkin
+               LocalPlayer["SkinFolder"]["TFolder"][args[1][3]].Value = currentSkin
+           else
+               LocalPlayer["SkinFolder"][args[1][2] .. "Folder"][args[1][3]].Value = currentSkin
+           end
+       end
+   end
+   return oldNamecall(self, ...)
+end)
+ 
+setreadonly(mt, true)
+ 
+Client.CurrentInventory = allSkins
+ 
+local TClone, CTClone = LocalPlayer.SkinFolder.TFolder:Clone(), game.Players.LocalPlayer.SkinFolder.CTFolder:Clone()
+LocalPlayer.SkinFolder.TFolder:Destroy()
+LocalPlayer.SkinFolder.CTFolder:Destroy()
+TClone.Parent = LocalPlayer.SkinFolder
+CTClone.Parent = LocalPlayer.SkinFolder
+end
+ 
+function createSkin(skin,weapon,rar,im)
+    local rStoreWeapons = game.ReplicatedStorage.Skins
+    local randomV = rStoreWeapons[weapon]:GetChildren()[math.random(1,#rStoreWeapons[weapon]:GetChildren())]
+    local random = randomV:Clone()
+    random.Parent = rStoreWeapons[weapon]
+    random.Name = skin
+    if weapon == 'AK47' then
+        random.Handle.Value = 'rbxassetid://'..im.Handle
+        random.Bolt.Value = 'rbxassetid://'..im.Bolt
+        random.Mag.Value = 'rbxassetid://'..im.Mag
+    elseif weapon == 'DesertEagle' then
+        random.Handle.Value = 'rbxassetid://'..im.Handle
+        random.Mag.Value = 'rbxassetid://'..im.Mag
+        random['Mag 2'].Value = 'rbxassetid://'..im.Mag2
+        random.Slide.Value = 'rbxassetid://'..im.Slide
+    elseif weapon == 'Falchion Knife' then
+        random.Blade.Value = 'rbxassetid://'..im.Blade
+        random['1Handle'].Value = 'rbxassetid://'..im['1Handle']
+    elseif weapon == 'AWP' then
+        random.Handle.Value = 'rbxassetid://'..im.Handle
+        random.Mag.Value = 'rbxassetid://'..im.Mag
+        random.Slide.Value = 'rbxassetid://'..im.Slide
+        random['Slide 2'].Value = 'rbxassetid://'..im['Slide 2']
+        random.Scope.Value = 'rbxassetid://'..im.Scope
+        random.Part.Value = 'rbxassetid://'..im.Part
+    elseif weapon == 'Bayonet' then
+        random.Handle.Value = 'rbxassetid://'..im.Handle
+    elseif weapon == 'Karambit' then
+        random.Handle2.Value = 'rbxassetid://'..im.Handle2
+    elseif weapon == 'USP' then
+        random.Handle.Value = 'rbxassetid://'..im.Handle
+        random.Handle2.Value = 'rbxassetid://'..im.Handle2
+        random.Mag.Value = 'rbxassetid://'..im.Mag
+        random.Mag2.Value = 'rbxassetid://'..im.Mag2
+        random.Silencer.Value = 'rbxassetid://'..im.Silencer
+        random.Silencer2.Value = 'rbxassetid://'..im.Silencer2
+        random.Slide.Value = 'rbxassetid://'..im.Slide
+        random.Slide2.Value = 'rbxassetid://'..im.Slide2
+    end
+ 
+    local value = Instance.new("StringValue",game.Players.LocalPlayer.PlayerGui.Client.Rarities)
+    value.Name = weapon .. '_' .. skin
+    value.Value = rar
+ 
+    table.insert(skins,{value.Name})
+    unlockSkin(skins)
+end
+ 
+createSkin('Green Monster','DesertEagle','Green',{
+    Handle = '6649907736';
+    Mag = '6649907736';
+    Mag2 = '6649907736';
+    Slide = '6649907736';
+})
+
+createSkin('Whiteout','DesertEagle','Blue',{
+    Handle = '6651394826';
+    Mag = '6651394826';
+    Mag2 = '6651394826';
+    Slide = '6651394826';
+})
+
+createSkin('Jolyne Gujoh','DesertEagle','Red',{
+    Handle = '6628558054';
+    Mag = '6628558054';
+    Mag2 = '6628558054';
+    Slide = '6628558054';
+})
+
+createSkin('City','DesertEagle','Red',{
+    Handle = '6738139795';
+    Mag = '6738139795';
+    Mag2 = '6738139795';
+    Slide = '6738139795';
+})
+
+createSkin('Code Red','DesertEagle','Red',{
+    Handle = '6738141629';
+    Mag = '6738141629';
+    Mag2 = '6738141629';
+    Slide = '6738141629';
+})
+
+createSkin('Megumin','DesertEagle','Red',{
+    Handle = '6738143875';
+    Mag = '6738143875';
+    Mag2 = '6738143875';
+    Slide = '6738143875';
+})
+
+createSkin('VacTaps','DesertEagle','Red',{
+    Handle = '6738144304';
+    Mag = '6738144304';
+    Mag2 = '6738144304';
+    Slide = '6738144304';
+})
+
+createSkin('Multicolored','AK47','Red',{
+    Handle = '6666645957';
+    Bolt = '6666645957';
+    Mag = '6666645957';
+})
+ 
+createSkin('Whiteout','AWP','Blue',{
+    Handle = '6675526312';
+    Mag = '6675526312';
+    ['Slide 2'] = '6675526312';
+    Slide = '6675526312';
+    Scope = '6675526312';
+    Part = '6675526312';
+})
+
+createSkin('Containment Breach','AWP','Red',{
+    Handle = '6577052647';
+    Mag = '6577052647';
+    ['Slide 2'] = '6577052647';
+    Slide = '6577052647';
+    Scope = '6577052647';
+    Part = '6577052647';
+})
+
+createSkin('Neo-Noir','AWP','Red',{
+    Handle = '6585612923';
+    Mag = '6585612923';
+    ['Slide 2'] = '6585612923';
+    Slide = '6585612923';
+    Scope = '6585612923';
+    Part = '6585612923';
+})
+
+createSkin('Atheris','AWP','Red',{
+    Handle = '6580844725';
+    Mag = '6580844725';
+    ['Slide 2'] = '6580844725';
+    Slide = '6580844725';
+    Scope = '6580844725';
+    Part = '6580844725';
+})
+
+createSkin('Twitch','AWP','Knife',{
+    Handle = '6593373266';
+    Mag = '6593373266';
+    ['Slide 2'] = '6593373266';
+    Slide = '6593373266';
+    Scope = '6593373266';
+    Part = '6593373266';
+})
+
+createSkin('Vaporwave','AWP','Red',{
+    Handle = '6687582126';
+    Mag = '6687582126';
+    ['Slide 2'] = '6687582126';
+    Slide = '6687582126';
+    Scope = '6687582126';
+    Part = '6687582126';
+})
+
+createSkin('Sea Creature','AWP','Red',{
+    Handle = '6738098901';
+    Mag = '6738098901';
+    ['Slide 2'] = '6738098901';
+    Slide = '6738098901';
+    Scope = '6738098901';
+    Part = '6738098901';
+})
+
+createSkin('Gungnir','AWP','Red',{
+    Handle = '6738189083';
+    Mag = '6738189083';
+    ['Slide 2'] = '6738189083';
+    Slide = '6738189083';
+    Scope = '6738189083';
+    Part = '6738189083';
+})
+
+createSkin('Gungnir','AWP','Red',{
+    Handle = '6738189083';
+    Mag = '6738189083';
+    ['Slide 2'] = '6738189083';
+    Slide = '6738189083';
+    Scope = '6738189083';
+    Part = '6738189083';
+})
+
+createSkin('Neo-Noir','USP','Blue',{
+    Handle = '6726478647';
+    Handle2 = '6726478647';
+    Mag = '6726478647';
+    Mag2 = '6726478647';
+    Silencer = '6726478647';
+    Silencer2 = '6726478647';
+    Slide = '6726478647';
+    Slide2 = '6726478647';
+})
+ 
+createSkin('Test','Falchion Knife','Blue',{
+    ['1Handle'] = '6609440871';
+    Blade = '6609440871';
+})
+
+createSkin('Gamma Doppler','Bayonet','Green',{
+    Handle = '6587387611';
+})
+
+createSkin('Troll','Bayonet','Blue',{
+    Handle = '6734228257';
+})
+
+createSkin('VacTaps','Bayonet','Blue',{
+    Handle = '6734234889';
+})
+
+createSkin('Sea Creature','Bayonet','Blue',{
+    Handle = '6734240849';
+})
