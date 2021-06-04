@@ -85,19 +85,19 @@ for i, v in pairs(game.Players:GetChildren()) do
                     SkeletonRightArm.To = Vector2.new(UpperTorso.X, UpperTorso.Y)
 
                     if v.TeamColor == plr.TeamColor then
-                        SkeletonTorso.Color = Color3.fromRGB(0, 255, 0)
-                        SkeletonHead.Color = Color3.fromRGB(0, 255, 0)
-                        SkeletonLeftArm.Color = Color3.fromRGB(0, 255, 0)
-                        SkeletonLeftLeg.Color = Color3.fromRGB(0, 255, 0)
-                        SkeletonRightArm.Color = Color3.fromRGB(0, 255, 0)
-                        SkeletonRightLeg.Color = Color3.fromRGB(0, 255, 0)
+                        SkeletonTorso.Color = Color3.fromRGB(38, 110, 162)
+                        SkeletonHead.Color = Color3.fromRGB(38, 110, 162)
+                        SkeletonLeftArm.Color = Color3.fromRGB(38, 110, 162)
+                        SkeletonLeftLeg.Color = Color3.fromRGB(38, 110, 162)
+                        SkeletonRightArm.Color = Color3.fromRGB(38, 110, 162)
+                        SkeletonRightLeg.Color = Color3.fromRGB(38, 110, 162)
                     else 
-                        SkeletonTorso.Color = Color3.fromRGB(255, 0, 0)
-                        SkeletonHead.Color = Color3.fromRGB(255, 0, 0)
-                        SkeletonLeftArm.Color = Color3.fromRGB(255, 0, 0)
-                        SkeletonLeftLeg.Color = Color3.fromRGB(255, 0, 0)
-                        SkeletonRightArm.Color = Color3.fromRGB(255, 0, 0)
-                        SkeletonRightLeg.Color = Color3.fromRGB(255, 0, 0)
+                        SkeletonTorso.Color = Color3.fromRGB(225, 191, 61)
+                        SkeletonHead.Color = Color3.fromRGB(225, 191, 61)
+                        SkeletonLeftArm.Color = Color3.fromRGB(225, 191, 61)
+                        SkeletonLeftLeg.Color = Color3.fromRGB(225, 191, 61)
+                        SkeletonRightArm.Color = Color3.fromRGB(225, 191, 61)
+                        SkeletonRightLeg.Color = Color3.fromRGB(225, 191, 61)
                     end
 
                     SkeletonTorso.Visible = true
